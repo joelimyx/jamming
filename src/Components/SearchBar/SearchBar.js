@@ -4,6 +4,10 @@ import './SearchBar.css';
 export class SearchBar extends React.Component {
     constructor(props) {
         super(props)
+
+        this.state = {
+            term:''
+        }
     
         this.search = this.search.bind(this)
         this.handleTermChange = this.handleTermChange.bind(this)
@@ -13,8 +17,8 @@ export class SearchBar extends React.Component {
         this.props.onSearch(this.state.term);
     }
     handleTermChange(e){
-        const term = e.target.value;
-        this.props.search(term);
+        this.setState({term:e.target.value});
+        this.search();
     }
 
     render() {
