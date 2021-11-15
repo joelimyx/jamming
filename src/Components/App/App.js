@@ -14,14 +14,16 @@ export class App extends React.Component {
         {name:'Dreamy Night',
         artist:'Lilypichu',
         album:'NightTime',
-        id:'69'}],
+        id:'69',
+        uri:'youtube.com/comfibeats'}],
 
       playlistName:'Name',
 
       playlistTracks:[{name:'Dreamy Night',
         artist:'Lilypichu',
         album:'NightTime',
-        id:'69'}]
+        id:'69',
+        uri:'youtube.com/comfibeats'}]
     }
 
     this.addTrack = this.addTrack.bind(this);
@@ -44,8 +46,6 @@ export class App extends React.Component {
     this.setState({playlistTracks:temp});
   }
   updatePlaylistName(name){
-    let temp = process.env.SPOTIFY;
-    alert(temp);
     this.setState({playlistName:name})
   }
   savePlaylist(){
@@ -53,8 +53,9 @@ export class App extends React.Component {
     //const uri = this.state.playlistTracks.map(track => track.uri);
   }
   search(term){
-    console.log(term);
-    Spotify.search(term);
+    Spotify.search(term).then(result =>{
+      this.setState({searchResults:result})
+    })
   }
 
   render() {
@@ -67,7 +68,7 @@ export class App extends React.Component {
             <SearchResults searchResults={this.state.searchResults}/>
             <Playlist 
               playlistName={this.state.playlistName} 
-              playlistTracks={this.state.playlistTracks} 
+              playlistTracks={this.state.playlistTracks}
               onAdd={this.addTrack} 
               onRemove={this.removeTrack}
               onNameChange={this.updatePlaylistName}

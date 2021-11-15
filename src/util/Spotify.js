@@ -5,7 +5,6 @@ const redirect_uri = 'http://localhost:3000/';
 const Spotify = {
     getAccessToken(){
         if (userToken) {
-            console.log(1);
             return userToken;
         }
 
@@ -29,9 +28,7 @@ const Spotify = {
             url += '&client_id=' + client_id;
             url += '&redirect_uri=' + redirect_uri;
             
-            window.location=url;
-
-                        
+            window.location=url;         
         }
 
     },
@@ -44,7 +41,16 @@ const Spotify = {
             return response.json();
         }, networkError => console.log(networkError.message))
         .then(jsonResponse => {
-            console.log(jsonResponse);
+            if(!jsonResponse.tracks) {
+                return [];
+            }
+            return jsonResponse.tracks.items.map(track => ({
+                id:track.id,
+                name:track.name,
+                artist:track.artists[0].name,
+                album:track.album.name,
+                uri:track.uri
+            }));
         })
     }
 };
